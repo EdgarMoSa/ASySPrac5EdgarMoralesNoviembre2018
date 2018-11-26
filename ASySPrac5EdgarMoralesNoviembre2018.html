@@ -1,0 +1,586 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Practica 5: Series de Fourier.</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-26"><meta name="DC.source" content="ASySPrac5EdgarMoralesNoviembre2018.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Practica 5: Series de Fourier.</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Portada</a></li><li><a href="#2">Objetivo</a></li><li><a href="#3">Introducci&oacute;n</a></li><li><a href="#5">Desarrollo</a></li><li><a href="#6">Ejemplo 6.1</a></li><li><a href="#7">Ejemplo 6.2</a></li><li><a href="#8">Ejemplo 6.4</a></li><li><a href="#9">Ejercicio 6.5 (4 armonicos)</a></li><li><a href="#10">Ejercicio 6.5 (15 armonicos)</a></li><li><a href="#11">Ejercicio 6.7 (4 armonicos)</a></li><li><a href="#12">Ejercicio 6.7 (15 armonicos)</a></li><li><a href="#13">Trapecio Compuesto</a></li><li><a href="#15">Tabla del trapecio compuesto</a></li><li><a href="#17">Apendice.</a></li><li><a href="#18">Referencias</a></li></ul></div><h2 id="1">Portada</h2><p><b>Intituto Polit&eacute;cnico Nacional</b></p><p><b>Unidad Profecional Interdiciplinaria en Ingenier&iacute;a y Tenolog&iacute;as Avanzadas</b></p><p><b>An&aacute;lisis de se&ntilde;ales y sistemas</b></p><p><b>Pr&aacute;ctica 5: Series de Fourier.</b></p><p><b>Grupo: 2MV1</b></p><p><b>Profesor: Dr. Rafael Martinez Martinez</b></p><p><b>Integrantes:</b></p><p><b>Calva Lima Leonardo Ashley</b></p><p><b>Escarcega Corona Luis</b></p><p><b>Morales Sanabria Edgar Esteban</b></p><h2 id="2">Objetivo</h2><p>Los objetivos son los siguientes:</p><p>Realizar gr&aacute;ficas de series de Fourier exponenciales y trigonom&eacute;tricas en tiempo continuo</p><p>Manipulaci&oacute;n de instrucciones en MATLAB</p><p>Calculo n&uacute;merico de los coeficientes de Fourier</p><h2 id="3">Introducci&oacute;n</h2><p>Existen tres maneras de representar una serie de Fourier, cada una con sus respectivas ventajas matem&aacute;ticas respecto a qu&eacute; tipo de funci&oacute;n, &eacute;sta pretende aproximar.</p><p>En este reporte de pr&aacute;ctica se analizar&aacute;n las tres; las cuales son:</p><div><ul><li><b>Trigonom&eacute;trica</b> ; Dadas las propiedades peri&oacute;dicas de la funci&oacute;n seno y coseno es posible construir modelos muy semejantes a otras funciones con una sumando una cantidad infinita de estas dos y un par de arreglos en el periodo. Inicialmente nos valemos de un par de constantes <img src="ASySPrac5EdgarMoralesNoviembre2018_eq10823013447529159262.png" alt="$$a_n$"> y <img src="ASySPrac5EdgarMoralesNoviembre2018_eq01400384925082110046.png" alt="$$b_n$"> a quienes llamaremos coeficientes de Fourier, mismos que modear&aacute;n las amplitudes del seno y coseno, respectivamente. Al variar estos coeficientes dentro de la sumatoria se logra aproximar la se&ntilde;al cada vez m&aacute;s. Esta aproximaci&oacute;n cuenta con la siguiente estructura.</li></ul></div><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq16758854783026683677.png" alt="$$s_f(t)= a_0/2 + \sum_{n=1}^{\infty} (a_n  cos (nt) + b_n  sin (nt))$$"></p><div><ul><li><b>Trigonom&eacute;trica Compacta</b> ; En ocasiones es m&aacute;s &uacute;til conocer la amplitud y la fase en t&eacute;rminos cosinusoidales en lugar de amplitudes cosinusoidales y sinusoidal. Otra forma de expresar la compleja forma de la serie de Fourier. Esta aproximaci&oacute;n cuenta con la siguiente estructura.</li></ul></div><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq14538624738072039198.png" alt="$$s_f(t)= a_0/2 + \sum_{n=1}^{\infty} (a_n  cos (w_n t-\theta_n) )$$"></p><div><ul><li><b>Exponencial</b> ; Esta serie a diferencia de las anteriores nos permite modelar expresiones tanto reales como imaginarias dadas sus caracter&iacute;sticas exponenciales.</li></ul></div><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq00368887628170572917.png" alt="$$s_f(t)= \sum_{-\infty}^{\infty} c_n e^{jntw_0}$$"></p><p>Donde en este caso especial los coeficientes de Fourier son llamados <img src="ASySPrac5EdgarMoralesNoviembre2018_eq02551001041140951987.png" alt="$$c_n$">$; los cuales se obtienen aplicando algunos despejes de la forma trigonom&eacute;tricas y finalmente se calculan de la siguiente manera</p><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq09856526184178834147.png" alt="$$c_n = 1/T_0 \int \limits_{t_0}^{t_0 + T_0} f(x) e^{-nw_0jt}\cdot dt$$"></p><p>Como es posible apreciar en esta &uacute;ltima ecuaci&oacute;n el c&aacute;lculo de <img src="ASySPrac5EdgarMoralesNoviembre2018_eq02551001041140951987.png" alt="$$c_n$">$ est&aacute; en funci&oacute;n del elemento a calcular. Esto es que var&iacute;a en funci&oacute;n de n que es un par&aacute;metro dentro de la serie. Otra forma de encontrar los coeficientes de Fourier de forma num&eacute;rica es a trav&eacute;s de software. En el cap&iacute;tulo 6.6 del libro Continuous-Time Signal Analysis se mencionan algunos pasos para llegar a un m&eacute;todo anal&iacute;tico</p><p>Aplicando sobre un intervalo de muestreo T con periodo <img src="ASySPrac5EdgarMoralesNoviembre2018_eq11820481462125488922.png" alt="$$T_0=1$"> en la se&ntilde;al <img src="ASySPrac5EdgarMoralesNoviembre2018_eq06787901769351252476.png" alt="$$x(t)$"> , tenemos que <img src="ASySPrac5EdgarMoralesNoviembre2018_eq01901309931402616452.png" alt="$$N_0=T_0/T$"> donde <img src="ASySPrac5EdgarMoralesNoviembre2018_eq00115059390746233418.png" alt="$$N_0$"> es el n&uacute;mero de muestras en un peri&oacute;do <img src="ASySPrac5EdgarMoralesNoviembre2018_eq00645987002107359863.png" alt="$$T_0$">$. Para encontrar la relaci&oacute;n entre <img src="ASySPrac5EdgarMoralesNoviembre2018_eq12508928118007287626.png" alt="$$C_n$"> y <img src="ASySPrac5EdgarMoralesNoviembre2018_eq06787901769351252476.png" alt="$$x(t)$"> consideramos la definici&oacute;n de los coeficientes de Fourier; donde al aplicarle l&iacute;mites en lugar de integrar se llega a las siguientes dos relaciones</p><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq09494062111088432998.png" alt="$$N_0=T_0/ T $$"></p><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq18087748791206746736.png" alt="$$\Omega_0=T\omega_0=2 \pi/N_0 $$"></p><p>Cabe destacar en esta s&iacute;ntesis del m&eacute;todo un concepto que traducido al espa&ntilde;ol es llamado "Error de Solape"; el cu&aacute;l es b&aacute;sicamente una aproximaci&oacute;n cuando el l&iacute;mite de <img src="ASySPrac5EdgarMoralesNoviembre2018_eq18036584924455361314.png" alt="$$T_0-&gt;0$"> y se indetermina el l&iacute;mite. Para este caso el m&eacute;todo num&eacute;rico tiende a valores muy peque&ntilde;os cercando al cero, pero nunca siendo cero. Ello implica que la Serie de Fourier tenga una ligera diferencia a la funci&oacute;n original.</p><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq13941671086950591679.png" alt="$$C_n=1/N_0 \sum_{k=0}^{N_0-1} x(kT) e^{-jkn\omega_0}$$"></p><p>Aplicando las dos ultimas relaciones en la ecuaci&oacute;n anterior, se tiene una nueva igualdad entre los valores de <img src="ASySPrac5EdgarMoralesNoviembre2018_eq12508928118007287626.png" alt="$$C_n$">$</p><p><img src="ASySPrac5EdgarMoralesNoviembre2018_eq04189906563022458898.png" alt="$$C_{n+N_0}=C_n$"></p><p>Conclusiones: La igualdad anterior establece una llamada propiedad de periocidad que significa que m&aacute;s all&aacute; de que <img src="ASySPrac5EdgarMoralesNoviembre2018_eq10313410309809953155.png" alt="$$n=N_0/2$">$ n representa aquellos valores negativos. Por ejemplo si <img src="ASySPrac5EdgarMoralesNoviembre2018_eq01286681121674538654.png" alt="$$N_0=32, C_17=C_-15 , C_18=C_-14,..., C_31=C_-1$"> Y de esta manera el ciclo se repite desde <img src="ASySPrac5EdgarMoralesNoviembre2018_eq15275483857193680460.png" alt="$$n=32$"></p><p>Se puede aprovechar la eficiencia de la FFT o Transformada R&aacute;pida de Fourier Por sus siglas en ingl&eacute;s; que es un algoritmo utilizado en matlab en el que solo se necasitan rampas <img src="ASySPrac5EdgarMoralesNoviembre2018_eq06787901769351252476.png" alt="$$x(t)$"> sobre un periodo que inicie en <img src="ASySPrac5EdgarMoralesNoviembre2018_eq13843076059956794891.png" alt="$$t=0$">, tambi&eacute;n es preferible que <img src="ASySPrac5EdgarMoralesNoviembre2018_eq16941824972759662263.png" alt="$$N_0=2^m$"></p><pre class="codeinput"> T_0 = pi; N_0 = 256; T = T_0/N_0; t = (0:T:T*(N_0-1))'; M = 10;
+ x = exp(-t/2); x(1) = (exp(-pi/2) + 1)/2;
+ D_n = fft (x)/N_0; n = -N_0/2:N_0/2-1';
+ clf; subplot (2, 2, 1); stem(n, abs(fftshift (D_n)),<span class="string">'k'</span>);
+ axis ([-M M -.1 .6]); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'|D_n|'</span>);
+ subplot (2, 2, 2);
+ stem(n, angle(fftshift(D_n)),<span class="string">'k'</span>);
+ axis([-M M -pi pi]);
+ xlabel (<span class="string">'n'</span>);
+ ylabel(<span class="string">'\angle D n [rad]'</span>)
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_01.png" alt=""> <h2 id="5">Desarrollo</h2><p>1) Realizar el programa de la serie que se indica 2) Gr&aacute;fica de la serie de Fourier en un intervalo que muestre 5 repeticiones 3) Gr&aacute;fica de la se&ntilde;al y la serie de Fourier para 4 armonicos 4) Gr&aacute;fica del error 5) Gr&aacute;fica de la energ&iacute;a del error 6) Espectro de magnitud para 4 armonicos 7) Espectro de fase para 4 armonicos 8) Todo lo anterior para 15 armonicos</p><h2 id="6">Ejemplo 6.1</h2><p>Con serie y espectro trigonometrico, no es necesario entregar el c&oacute;digo, solo la aplicaci&oacute;n al problema especifico, debe de indicar la funci&oacute;n y los valores de sus coeficientes (sin incluir el procedimiento) Utilizando el software visto en clase se define la funci&oacute;n de la siguiente manera:</p><pre class="codeinput">d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) exp(-t/2);
+armo=4;
+a=-7;
+b=9;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_02.png" alt=""> <h2 id="7">Ejemplo 6.2</h2><p>Con serie y espectro exponencial y A=3, no es necesario entregar el c&oacute;digo, solo la aplicaci&oacute;n al problema especifico, debe de indicar la funci&oacute;n y los valores de sus coeficientes (sin incluir el procedimiento)</p><pre class="codeinput">d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) (2-2*t).*(t&gt;=1/2&amp;t&lt;3/2);
+armo=4;
+a=-7;
+b=9;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+<span class="comment">%</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_03.png" alt=""> <h2 id="8">Ejemplo 6.4</h2><p>Con serie y espectro exponencial, no es necesario entregar el c&oacute;digo, solo la aplicaci&oacute;n al problema especifico, debe de indicar la funci&oacute;n y los valores de sus coeficientes (sin incluir el procedimiento)</p><pre class="codeinput">d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) 1.*(t&gt;=-2*pi&amp;t&lt;2*pi);
+armo=4;
+a=-7;
+b=9;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+armo=15;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_04.png" alt=""> <h2 id="9">Ejercicio 6.5 (4 armonicos)</h2><p>Datos para la funci&oacute;n con 5 armonicos.</p><pre class="codeinput">d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) exp(-t/2);
+armo=4;
+a=-7;
+b=9;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+<span class="comment">% Gr&aacute;fica de la funcion Delta con 5 armonicos.</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_05.png" alt=""> <h2 id="10">Ejercicio 6.5 (15 armonicos)</h2><p>Datos para la funci&oacute;n con 15 armonicos.</p><pre class="codeinput">d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) exp(-t/2);
+armo=15;
+a=-7;
+b=9;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+<span class="comment">% Gr&aacute;fica de la funcion Delta con 15 armonicos.</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_06.png" alt=""> <h2 id="11">Ejercicio 6.7 (4 armonicos)</h2><p>Datos de la funcion Delta con 5 armonicos.</p><pre class="codeinput">close <span class="string">all</span>; clear; clc;
+ar=4;
+sef=1/3;
+t0=3;
+t=-4:4;
+<span class="keyword">for</span> i=1:ar
+   sef=sef+exp(2*pi*i*t*1j/3)/3+ exp(-2*pi*i*t.*1j/3)/3;
+<span class="keyword">end</span>
+<span class="keyword">for</span> i=1:length(t)
+    dn(i)=1/3;
+    On(i)=0;
+    <span class="keyword">if</span> i==length(t)
+       On(2)=pi;
+       On(8)=-pi;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+figure
+subplot(3,1,1,<span class="string">'Color'</span>,[0,0.7,0.9])
+stem(t,sef,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[1 0 0])
+grid <span class="string">on</span>
+legend(<span class="string">'Serie de Fourier'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'Serie de Fourier.'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis([-4.5 4.5 0 14])
+
+subplot(3,1,2)
+stem(t,dn,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[0 0 1])
+grid <span class="string">on</span>
+legend(<span class="string">'Espectro de magnitud'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'Espectro de Fase.'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+
+subplot(3,1,3)
+stem(t,On,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[0 0 1])
+grid <span class="string">on</span>
+legend(<span class="string">'Espectro de fase'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'Espectro de Magnitud.'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+<span class="comment">%Gr&aacute;fica de la funcion Delta con 5 armonicos.</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_07.png" alt=""> <h2 id="12">Ejercicio 6.7 (15 armonicos)</h2><p>Datos de la funcion Delta con 15 armonicos.</p><pre class="codeinput">close <span class="string">all</span>; clear; clc;
+ar=15;
+sef=1/3;
+t0=3;
+t=-4:4;
+<span class="keyword">for</span> i=1:ar
+   sef=sef+exp(2*pi*i*t*1j/3)/3+ exp(-2*pi*i*t.*1j/3)/3;
+<span class="keyword">end</span>
+<span class="keyword">for</span> i=1:length(t)
+    dn(i)=1/3;
+    On(i)=0;
+    <span class="keyword">if</span> i==length(t)
+       On(2)=pi;
+       On(8)=-pi;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+figure
+subplot(3,1,1,<span class="string">'Color'</span>,[0,0.7,0.9])
+stem(t,sef,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[1 0 0])
+grid <span class="string">on</span>
+legend(<span class="string">'Serie de Fourier'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'Serie de Fourier.'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis([-4.5 4.5 0 14])
+
+subplot(3,1,2)
+stem(t,dn,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[0 0 1])
+grid <span class="string">on</span>
+legend(<span class="string">'Espectro de magnitud'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'Espectro de Fase.'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+
+subplot(3,1,3)
+stem(t,On,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[0 0 1])
+grid <span class="string">on</span>
+legend(<span class="string">'Espectro de fase'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'Espectro de Magnitud.'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+<span class="comment">%Gr&aacute;fica de la funcion Delta con 15 armonicos.</span>
+</pre><img vspace="5" hspace="5" src="ASySPrac5EdgarMoralesNoviembre2018_08.png" alt=""> <h2 id="13">Trapecio Compuesto</h2><p>Elabore un c&oacute;digo que implemente el algoritmo de trapecio compuesto para <img src="ASySPrac5EdgarMoralesNoviembre2018_eq08501079337458606022.png" alt="$n=15$">, Utilice este c&oacute;digo para aproximar <img src="ASySPrac5EdgarMoralesNoviembre2018_eq12324390629844581234.png" alt="$D_0,...,D_4$"> del ejemplo de la pr&aacute;ctica. Ahora implemente el c&oacute;digo COMPUTER EXAMPLE C6.4 que se encuentra al final de la secci&oacute;n 6.6 de Lathi, y calcule nuevamente el los coeficientes <img src="ASySPrac5EdgarMoralesNoviembre2018_eq12324390629844581234.png" alt="$D_0,...,D_4$"> del ejemplo propuesto. Muestre una tabla que contenga los coeficientes mencionados calculados con los dos algorit- mos y de forma exacta, &iquest;Qu&eacute; algortmo aproxima mejor a los coeficientes?, para esto compare los coefientes con el valor absoluto de la resta.</p><pre class="language-matlab"><span class="keyword">function</span> integral=trapeciocom(f,a,b,n)
+f0=subs(f,a);
+fn=subs(f,b);
+h=(b-a)/n;
+fs=0;
+<span class="keyword">for</span> i=1:n-1
+    x(i)=a+h*i;
+    fs=fs+subs(f,x(i));
+<span class="keyword">end</span>
+integral=0.5*h*(f0+2*fs+fn);
+</pre><pre class="codeinput">f=exp(-t/2);
+a=0;
+b=pi;
+n=15;
+trapeciocom(f,a,b,n);
+Integral=1.5857;
+</pre><h2 id="15">Tabla del trapecio compuesto</h2><pre class="codeinput">Dn = {<span class="string">'D0'</span>;<span class="string">'D1'</span>;<span class="string">'D2'</span>;<span class="string">'D3'</span>;<span class="string">'D4'</span>};
+Real = [0.504;0.0296 - 0.1186i;0.0078 - 0.0620i;0.0035 - 0.0417i;0.0020 - 0.0314i];
+Trapecio = [0.5047+0.0000i;0.0301-0.1168i;0.0082-0.0583i;0.0040-0.0361i;0.0025-0.0237i];
+Lathi = [0.504281105948516 + 0.00000000000000i;0.0296650836043681 - 0.118647676913452i;0.00775972886772522 - 0.0620525144086751i;0.00347937240545304 - 0.0417144902523740i;0.00196376005535414 - 0.0313695156147827i];
+TrapeciovsReal = abs(Real-Trapecio);
+LathivsReal = abs(Real-Lathi);
+T=table(Dn,Real,Trapecio,Lathi,TrapeciovsReal,LathivsReal)
+</pre><pre class="codeoutput">
+T =
+
+  5&times;6 table
+
+     Dn          Real            Trapecio              Lathi           TrapeciovsReal    LathivsReal
+    ____    ______________    ______________    ___________________    ______________    ___________
+
+    'D0'     0.504+0i         0.5047+0i           0.50428+0i                0.0007       0.00028111 
+    'D1'    0.0296-0.1186i    0.0301-0.1168i     0.029665-0.11865i       0.0018682       8.0678e-05 
+    'D2'    0.0078-0.062i     0.0082-0.0583i    0.0077597-0.062053i      0.0037216       6.6178e-05 
+    'D3'    0.0035-0.0417i     0.004-0.0361i    0.0034794-0.041714i      0.0056223       2.5208e-05 
+    'D4'     0.002-0.0314i    0.0025-0.0237i    0.0019638-0.03137i       0.0077162       4.7356e-05 
+
+</pre><pre>  Dn          Real            Trapecio              Lathi           TrapeciovsReal    LathivsReal
+     ____    ______________    ______________    ___________________    ______________    ___________</pre><pre>     'D0'     0.504+0i         0.5047+0i           0.50428+0i                0.0007       0.00028111
+     'D1'    0.0296-0.1186i    0.0301-0.1168i     0.029665-0.11865i       0.0018682       8.0678e-05
+     'D2'    0.0078-0.062i     0.0082-0.0583i    0.0077597-0.062053i      0.0037216       6.6178e-05
+     'D3'    0.0035-0.0417i     0.004-0.0361i    0.0034794-0.041714i      0.0056223       2.5208e-05
+     'D4'     0.002-0.0314i    0.0025-0.0237i    0.0019638-0.03137i       0.0077162       4.7356e-05</pre><h2 id="17">Apendice.</h2><p><a href="https://drive.google.com/drive/folders/1dyDRoMeOjE3B5XLxarQ4itmvqw5a8p4c?usp=sharing">https://drive.google.com/drive/folders/1dyDRoMeOjE3B5XLxarQ4itmvqw5a8p4c?usp=sharing</a></p><h2 id="18">Referencias</h2><p>Dr. Rafael Martinez Martinez. (2016). Se ?nales y Sistemas. 2018, de creativecommons.orgSitio web: <a href="http://rafneta.github.io/">http://rafneta.github.io/</a></p><p>B P Lathi. (2005). Continuous-Time Signal Analysis-The Fourier Series. En Linear Systems and Signals(448-449). New York: Oxford University Press, Inc. .</p><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Practica 5: Series de Fourier.
+%%   Portada
+% *Intituto Politécnico Nacional*
+%
+% *Unidad Profecional Interdiciplinaria en Ingeniería y Tenologías
+% Avanzadas*
+%                         
+% *Análisis de señales y sistemas*
+%
+% *Práctica 5: Series de Fourier.*
+%
+% *Grupo: 2MV1*
+%
+% *Profesor: Dr. Rafael Martinez Martinez*
+%  
+% *Integrantes:*
+%
+% *Calva Lima Leonardo Ashley*
+%
+% *Escarcega Corona Luis*
+%
+% *Morales Sanabria Edgar Esteban*
+%% Objetivo
+%
+% Los objetivos son los siguientes:
+% 
+% Realizar gráficas de series de Fourier exponenciales y trigonométricas en tiempo continuo
+%
+% Manipulación de instrucciones en MATLAB
+%
+% Calculo númerico de los coeficientes de Fourier
+%
+%% Introducción
+%
+% Existen tres maneras de representar una serie de Fourier, cada una con
+% sus respectivas ventajas matemáticas respecto a qué tipo de función, ésta
+% pretende aproximar. 
+%
+% En este reporte de práctica se analizarán las tres; las cuales son:
+% 
+% * *Trigonométrica* ; Dadas las propiedades periódicas de la función seno
+% y coseno es posible construir modelos muy semejantes a otras funciones
+% con una sumando una cantidad infinita de estas dos y un par de arreglos 
+% en el periodo.
+% Inicialmente nos valemos de un par de constantes $$a_n$ y $$b_n$
+% a quienes llamaremos coeficientes de Fourier, mismos que modearán las
+% amplitudes del seno y coseno, respectivamente. Al variar estos
+% coeficientes dentro de la sumatoria se logra aproximar la señal cada vez
+% más.
+% Esta aproximación cuenta con la siguiente estructura.
+%  
+% $$s_f(t)= a_0/2 + \sum_{n=1}^{\infty} (a_n  cos (nt) + b_n  sin (nt))$$ 
+% 
+% * *Trigonométrica Compacta* ; En ocasiones es más útil conocer la amplitud
+% y la fase en términos cosinusoidales en lugar de amplitudes cosinusoidales
+% y sinusoidal. Otra forma de expresar la compleja forma de la serie de 
+% Fourier. Esta aproximación cuenta con la siguiente estructura.
+%  
+% $$s_f(t)= a_0/2 + \sum_{n=1}^{\infty} (a_n  cos (w_n t-\theta_n) )$$ 
+% 
+% * *Exponencial* ; Esta serie a diferencia de las anteriores nos permite
+% modelar expresiones tanto reales como imaginarias dadas sus
+% características exponenciales. 
+% 
+% $$s_f(t)= \sum_{-\infty}^{\infty} c_n e^{jntw_0}$$ 
+% 
+% Donde en este caso especial los coeficientes de Fourier son llamados
+% $$c_n$$; los cuales se obtienen aplicando algunos despejes de la forma
+% trigonométricas y finalmente se calculan de la siguiente manera
+%
+% $$c_n = 1/T_0 \int \limits_{t_0}^{t_0 + T_0} f(x) e^{-nw_0jt}\cdot dt$$
+% 
+% Como es posible apreciar en esta última ecuación el cálculo de $$c_n$$
+% está en función del elemento a calcular. Esto es que varía en función de
+% n que es un parámetro dentro de la serie. 
+% Otra forma de encontrar los coeficientes de Fourier de forma numérica es
+% a través de software. En el capítulo 6.6 del libro Continuous-Time Signal 
+% Analysis se mencionan algunos pasos para llegar a un método analítico
+%
+% Aplicando sobre un intervalo de muestreo T con periodo $$T_0=1$ en la 
+% señal $$x(t)$ , tenemos que $$N_0=T_0/T$ donde $$N_0$ es el 
+% número de muestras en un periódo $$T_0$$. Para encontrar la relación
+% entre $$C_n$ y $$x(t)$ consideramos la definición de los coeficientes de 
+% Fourier; donde al aplicarle límites en lugar de integrar se llega a las siguientes dos relaciones
+% 
+% $$N_0=T_0/ T $$
+%
+% $$\Omega_0=T\omega_0=2 \pi/N_0 $$
+%   
+% Cabe destacar en esta síntesis del método un concepto que traducido al
+% español es llamado "Error de Solape"; el cuál es básicamente una
+% aproximación cuando el límite de $$T_0->0$ y se indetermina el límite.
+% Para este caso el método numérico tiende a valores muy pequeños cercando
+% al cero, pero nunca siendo cero. Ello implica que la Serie de Fourier
+% tenga una ligera diferencia a la función original.
+%
+% $$C_n=1/N_0 \sum_{k=0}^{N_0-1} x(kT) e^{-jkn\omega_0}$$
+% 
+% Aplicando las dos ultimas relaciones en la ecuación anterior, se tiene 
+% una nueva igualdad entre los valores de $$C_n$$
+%   
+% $$C_{n+N_0}=C_n$
+%   
+% Conclusiones: La igualdad anterior establece una llamada propiedad
+% de periocidad que significa que más allá de que $$n=N_0/2$$ n representa
+% aquellos valores negativos. Por ejemplo si $$N_0=32, C_17=C_-15 , C_18=C_-14,..., 
+% C_31=C_-1$ Y de esta manera el ciclo se repite desde $$n=32$
+% 
+% Se puede aprovechar la eficiencia de la FFT o Transformada Rápida de Fourier 
+% Por sus siglas en inglés; que es un algoritmo utilizado en matlab en el que 
+% solo se necasitan rampas $$x(t)$ sobre un periodo que inicie en $$t=0$,
+% también es preferible que $$N_0=2^m$
+%
+%%
+ T_0 = pi; N_0 = 256; T = T_0/N_0; t = (0:T:T*(N_0-1))'; M = 10;
+ x = exp(-t/2); x(1) = (exp(-pi/2) + 1)/2;
+ D_n = fft (x)/N_0; n = -N_0/2:N_0/2-1'; 
+ clf; subplot (2, 2, 1); stem(n, abs(fftshift (D_n)),'k');
+ axis ([-M M -.1 .6]); xlabel('n'); ylabel('|D_n|');
+ subplot (2, 2, 2);
+ stem(n, angle(fftshift(D_n)),'k');
+ axis([-M M -pi pi]);
+ xlabel ('n'); 
+ ylabel('\angle D n [rad]')
+%% Desarrollo
+%
+% 1) Realizar el programa de la serie que se indica
+% 2) Gráfica de la serie de Fourier en un intervalo que muestre 5 repeticiones
+% 3) Gráfica de la señal y la serie de Fourier para 4 armonicos
+% 4) Gráfica del error
+% 5) Gráfica de la energía del error
+% 6) Espectro de magnitud para 4 armonicos
+% 7) Espectro de fase para 4 armonicos
+% 8) Todo lo anterior para 15 armonicos
+%
+%% Ejemplo 6.1
+%
+% Con serie y espectro trigonometrico, no es necesario entregar el código, 
+% solo la aplicación al problema especifico, debe de indicar la función y 
+% los valores de sus coeficientes (sin incluir el procedimiento)
+% Utilizando el software visto en clase se define la función de la
+% siguiente manera:
+%
+d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) exp(-t/2);
+armo=4;
+a=-7;
+b=9;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+%% Ejemplo 6.2
+% 
+% Con serie y espectro exponencial y A=3, no es necesario entregar el código,
+% solo la aplicación al problema especifico, debe de indicar la función y los
+% valores de sus coeficientes (sin incluir el procedimiento)
+%
+d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) (2-2*t).*(t>=1/2&t<3/2);
+armo=4;
+a=-7;
+b=9;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+%
+%% Ejemplo 6.4
+%
+% Con serie y espectro exponencial, no es necesario entregar el código, solo 
+% la aplicación al problema especifico, debe de indicar la función y los valores
+% de sus coeficientes (sin incluir el procedimiento)
+%
+d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) 1.*(t>=-2*pi&t<2*pi);
+armo=4;
+a=-7;
+b=9;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+armo=15;
+sfcon(t0,tf,dn,d0,f,armo,a,b)
+%% Ejercicio 6.5 (4 armonicos)
+% Datos para la función con 5 armonicos.
+d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) exp(-t/2);
+armo=4;
+a=-7;
+b=9;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+% Gráfica de la funcion Delta con 5 armonicos.
+%% Ejercicio 6.5 (15 armonicos)
+% Datos para la función con 15 armonicos.
+d0=0.504;
+dn=@(n) 0.504/(1+4*n*1j);
+t0=0;
+tf=pi;
+f=@(t) exp(-t/2);
+armo=15;
+a=-7;
+b=9;
+sfc(t0,tf,dn,d0,f,armo,a,b)
+% Gráfica de la funcion Delta con 15 armonicos.
+%% Ejercicio 6.7 (4 armonicos)
+% Datos de la funcion Delta con 5 armonicos.
+close all; clear; clc;
+ar=4;
+sef=1/3;
+t0=3;
+t=-4:4;
+for i=1:ar
+   sef=sef+exp(2*pi*i*t*1j/3)/3+ exp(-2*pi*i*t.*1j/3)/3;
+end
+for i=1:length(t)
+    dn(i)=1/3;
+    On(i)=0;
+    if i==length(t)
+       On(2)=pi;
+       On(8)=-pi;
+    end
+end
+figure
+subplot(3,1,1,'Color',[0,0.7,0.9])
+stem(t,sef,'LineWidth',2,'Color',[1 0 0])
+grid on
+legend('Serie de Fourier','Location','Best')
+xlabel('Serie de Fourier.','FontWeight','bold','FontSize',16)
+axis([-4.5 4.5 0 14])
+
+subplot(3,1,2)
+stem(t,dn,'LineWidth',2,'Color',[0 0 1])
+grid on
+legend('Espectro de magnitud','Location','Best')
+xlabel('Espectro de Fase.','FontWeight','bold','FontSize',16)
+
+subplot(3,1,3)
+stem(t,On,'LineWidth',2,'Color',[0 0 1])
+grid on
+legend('Espectro de fase','Location','Best')
+xlabel('Espectro de Magnitud.','FontWeight','bold','FontSize',16)
+%Gráfica de la funcion Delta con 5 armonicos.
+%% Ejercicio 6.7 (15 armonicos)
+% Datos de la funcion Delta con 15 armonicos.
+close all; clear; clc;
+ar=15;
+sef=1/3;
+t0=3;
+t=-4:4;
+for i=1:ar
+   sef=sef+exp(2*pi*i*t*1j/3)/3+ exp(-2*pi*i*t.*1j/3)/3;
+end
+for i=1:length(t)
+    dn(i)=1/3;
+    On(i)=0;
+    if i==length(t)
+       On(2)=pi;
+       On(8)=-pi;
+    end
+end
+figure
+subplot(3,1,1,'Color',[0,0.7,0.9])
+stem(t,sef,'LineWidth',2,'Color',[1 0 0])
+grid on
+legend('Serie de Fourier','Location','Best')
+xlabel('Serie de Fourier.','FontWeight','bold','FontSize',16)
+axis([-4.5 4.5 0 14])
+
+subplot(3,1,2)
+stem(t,dn,'LineWidth',2,'Color',[0 0 1])
+grid on
+legend('Espectro de magnitud','Location','Best')
+xlabel('Espectro de Fase.','FontWeight','bold','FontSize',16)
+
+subplot(3,1,3)
+stem(t,On,'LineWidth',2,'Color',[0 0 1])
+grid on
+legend('Espectro de fase','Location','Best')
+xlabel('Espectro de Magnitud.','FontWeight','bold','FontSize',16)
+%Gráfica de la funcion Delta con 15 armonicos.
+
+%% Trapecio Compuesto
+%
+% Elabore un código que implemente el algoritmo de trapecio compuesto para
+% $n=15$, Utilice este código para aproximar $D_0,...,D_4$ del ejemplo de 
+% la práctica. Ahora implemente el código COMPUTER EXAMPLE C6.4 que se 
+% encuentra al final de la sección 6.6 de Lathi, y calcule nuevamente el 
+% los coeficientes $D_0,...,D_4$ del ejemplo propuesto. Muestre una tabla 
+% que contenga los coeficientes mencionados calculados con los dos algorit-
+% mos y de forma exacta, ¿Qué algortmo aproxima mejor a los coeficientes?,
+% para esto compare los coefientes con el valor absoluto de la resta.
+%
+%   function integral=trapeciocom(f,a,b,n)
+%   f0=subs(f,a);
+%   fn=subs(f,b);
+%   h=(b-a)/n;
+%   fs=0;
+%   for i=1:n-1
+%       x(i)=a+h*i;
+%       fs=fs+subs(f,x(i));
+%   end
+%   integral=0.5*h*(f0+2*fs+fn);
+%%
+f=exp(-t/2);
+a=0;
+b=pi;
+n=15;
+trapeciocom(f,a,b,n);
+Integral=1.5857;
+
+%% Tabla del trapecio compuesto
+Dn = {'D0';'D1';'D2';'D3';'D4'};
+Real = [0.504;0.0296 - 0.1186i;0.0078 - 0.0620i;0.0035 - 0.0417i;0.0020 - 0.0314i];
+Trapecio = [0.5047+0.0000i;0.0301-0.1168i;0.0082-0.0583i;0.0040-0.0361i;0.0025-0.0237i];
+Lathi = [0.504281105948516 + 0.00000000000000i;0.0296650836043681 - 0.118647676913452i;0.00775972886772522 - 0.0620525144086751i;0.00347937240545304 - 0.0417144902523740i;0.00196376005535414 - 0.0313695156147827i];
+TrapeciovsReal = abs(Real-Trapecio);
+LathivsReal = abs(Real-Lathi);
+T=table(Dn,Real,Trapecio,Lathi,TrapeciovsReal,LathivsReal)
+%%
+%    Dn          Real            Trapecio              Lathi           TrapeciovsReal    LathivsReal
+%       ____    ______________    ______________    ___________________    ______________    ___________
+%   
+%       'D0'     0.504+0i         0.5047+0i           0.50428+0i                0.0007       0.00028111 
+%       'D1'    0.0296-0.1186i    0.0301-0.1168i     0.029665-0.11865i       0.0018682       8.0678e-05 
+%       'D2'    0.0078-0.062i     0.0082-0.0583i    0.0077597-0.062053i      0.0037216       6.6178e-05 
+%       'D3'    0.0035-0.0417i     0.004-0.0361i    0.0034794-0.041714i      0.0056223       2.5208e-05 
+%       'D4'     0.002-0.0314i    0.0025-0.0237i    0.0019638-0.03137i       0.0077162       4.7356e-05 
+%% Apendice.
+% <https://drive.google.com/drive/folders/1dyDRoMeOjE3B5XLxarQ4itmvqw5a8p4c?usp=sharing>
+
+%% Referencias
+% 
+% Dr. Rafael Martinez Martinez. (2016). Se ?nales y Sistemas. 2018, de creativecommons.orgSitio web: http://rafneta.github.io/
+% 
+% B P Lathi. (2005). Continuous-Time Signal Analysis-The Fourier Series. En Linear Systems and Signals(448-449). New York: Oxford University Press, Inc. .
+##### SOURCE END #####
+--></body></html>
